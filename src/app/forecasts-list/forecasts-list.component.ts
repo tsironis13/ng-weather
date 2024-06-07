@@ -1,23 +1,20 @@
-import { Component } from '@angular/core';
-import {WeatherService} from '../weather.service';
-import {ActivatedRoute} from '@angular/router';
-import {Forecast} from './forecast.type';
+import { Component, OnInit, inject, input } from "@angular/core";
+import { WeatherService } from "../weather.service";
+import { Forecast } from "./forecast.type";
+import { Observable } from "rxjs";
 
 @Component({
-  selector: 'app-forecasts-list',
-  templateUrl: './forecasts-list.component.html',
-  styleUrls: ['./forecasts-list.component.css']
+  selector: "app-forecasts-list",
+  templateUrl: "./forecasts-list.component.html",
+  styleUrls: ["./forecasts-list.component.css"],
 })
-export class ForecastsListComponent {
+export class ForecastsListComponent implements OnInit {
+  protected forecast$: Observable<Forecast>;
+  protected weatherService = inject(WeatherService);
 
-  zipcode: string;
-  forecast: Forecast;
+  readonly zipcode = input<string>();
 
-  constructor(protected weatherService: WeatherService, route : ActivatedRoute) {
-    route.params.subscribe(params => {
-      this.zipcode = params['zipcode'];
-      weatherService.getForecast(this.zipcode)
-        .subscribe(data => this.forecast = data);
-    });
+  ngOnInit(): void {
+    this.forecast$ = this.weatherService.getForecast(this.zipcode());
   }
 }

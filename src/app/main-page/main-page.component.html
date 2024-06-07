@@ -1,6 +1,12 @@
-<div class="container-fluid">
+<div>
+  <app-zipcode-entry (onAddLocation)="addLocation($event)"></app-zipcode-entry>
 
-  <app-zipcode-entry> </app-zipcode-entry>
-  <app-current-conditions></app-current-conditions>
+  <ng-template let-item="item" #weatherCondition>
+    <app-weather-conditions
+      [weatherConditions]="item"
+      (removeLocation)="removeLocation($event)"
+    ></app-weather-conditions>
+  </ng-template>
 
+  <app-tabs-container> </app-tabs-container>
 </div>

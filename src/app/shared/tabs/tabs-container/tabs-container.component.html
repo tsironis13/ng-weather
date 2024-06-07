@@ -1,0 +1,13 @@
+@for (tab of tabs; track $index) {
+<app-tab-header
+  [active]="tab.content.instance.active"
+  [title]="tab.title"
+  [tabId]="tab.tabId"
+  (onTabSelected)="selectTab($event)"
+  (onTabClosed)="closeTab($event)"
+></app-tab-header>
+}
+
+<div id="tab-body">
+  <ng-template tabTemplate #container></ng-template>
+</div>

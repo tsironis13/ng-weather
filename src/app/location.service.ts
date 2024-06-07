@@ -1,33 +1,54 @@
-import { Injectable } from '@angular/core';
-import {WeatherService} from "./weather.service";
+import { inject } from "@angular/core";
+import { patchState, signalStore, withHooks, withMethods } from "@ngrx/signals";
+import {
+  addEntity,
+  removeEntity,
+  setEntities,
+  withEntities,
+} from "@ngrx/signals/entities";
+import { of } from "rxjs";
+import { HttpCacheService } from "./http-cache.service";
 
-export const LOCATIONS : string = "locations";
+export const LOCATIONS: string = "locations";
 
-@Injectable()
-export class LocationService {
+export type Location = {
+  zip: number | string;
+};
 
-  locations : string[] = [];
+export const LocationsStore = signalStore(
+  { providedIn: "root" },
+  withEntities<Location>(),
+  withMethods((store, httpCache = inject(HttpCacheService)) => ({
+    loadAllLocations() {
+      let locString = httpCache.getStorageItemByKey(LOCATIONS);
+      if (locString) {
+        const locations = locString.data as Location[];
+        patchState(store, setEntities(locations, { idKey: "zip" }));
+      }
+    },
+    addLocation(zip: string | number) {
+      const entity = { zip };
+      patchState(store, addEntity(entity, { idKey: "zip" }));
+      httpCache.saveDataByKey(LOCATIONS, store.entities());
 
-  constructor(private weatherService : WeatherService) {
-    let locString = localStorage.getItem(LOCATIONS);
-    if (locString)
-      this.locations = JSON.parse(locString);
-    for (let loc of this.locations)
-      this.weatherService.addCurrentConditions(loc);
-  }
+      return of(entity);
+    },
+    removeLocation(zip: string | number) {
+      let locationToRemove = store
+        .entities()
+        .find((locations) => locations.zip === zip);
+      if (locationToRemove) {
+        patchState(store, removeEntity(locationToRemove.zip));
 
-  addLocation(zipcode : string) {
-    this.locations.push(zipcode);
-    localStorage.setItem(LOCATIONS, JSON.stringify(this.locations));
-    this.weatherService.addCurrentConditions(zipcode);
-  }
+        httpCache.saveDataByKey(LOCATIONS, store.entities());
+      }
 
-  removeLocation(zipcode : string) {
-    let index = this.locations.indexOf(zipcode);
-    if (index !== -1){
-      this.locations.splice(index, 1);
-      localStorage.setItem(LOCATIONS, JSON.stringify(this.locations));
-      this.weatherService.removeCurrentConditions(zipcode);
-    }
-  }
-}
+      return of(locationToRemove);
+    },
+  })),
+  withHooks({
+    onInit(store) {
+      store.loadAllLocations();
+    },
+  })
+);

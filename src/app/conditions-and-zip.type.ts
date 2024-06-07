@@ -1,6 +1,6 @@
-import {CurrentConditions} from './current-conditions/current-conditions.type';
+import { WeatherConditions } from "./weather-conditions/weather-conditions.type";
 
 export interface ConditionsAndZip {
-    zip: string;
-    data: CurrentConditions;
+  zip: string | number;
+  data: WeatherConditions;
 }

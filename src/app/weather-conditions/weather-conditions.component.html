@@ -1,0 +1,27 @@
+<div>
+  <div class="well flex">
+    <div>
+      <h4>
+        Current conditions: {{ weatherConditions().data.weather[0].main }}
+      </h4>
+      <h4>Temperatures today:</h4>
+      <p>
+        Current {{ weatherConditions().data.main.temp | number : ".0-0" }} - Max
+        {{ weatherConditions().data.main.temp_max | number : ".0-0" }} - Min
+        {{ weatherConditions().data.main.temp_min | number : ".0-0" }}
+      </p>
+      <p>
+        <a [routerLink]="['/forecast', weatherConditions().zip]"
+          >Show 5-day forecast for {{ weatherConditions().data.name }}</a
+        >
+      </p>
+    </div>
+    <div>
+      <img
+        [src]="
+          weatherService.getWeatherIcon(weatherConditions().data.weather[0].id)
+        "
+      />
+    </div>
+  </div>
+</div>

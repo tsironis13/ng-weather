@@ -1,0 +1,27 @@
+:host {
+  display: inline-flex;
+  padding: 10px;
+  background: lightgray;
+}
+
+:host.active {
+  background: teal;
+
+  .title {
+    color: white;
+  }
+
+  .close {
+    color: white;
+  }
+}
+
+.title {
+  color: black;
+}
+
+.close {
+  cursor: pointer;
+  margin-left: 5px;
+  color: black;
+}
