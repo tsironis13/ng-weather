@@ -1,8 +1,7 @@
-@if(active) {
+@if(active && template) {
 <ng-container
-  *ngIf="template"
   [ngTemplateOutlet]="template"
-  [ngTemplateOutletContext]="{ item: dataContext, callback: removeTab }"
+  [ngTemplateOutletContext]="{ item: dataContext }"
 >
 </ng-container>
 }

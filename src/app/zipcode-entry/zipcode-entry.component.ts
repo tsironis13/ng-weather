@@ -1,14 +1,12 @@
-import { Component, inject, output } from "@angular/core";
-import { LocationsStore } from "../location.service";
+import { ChangeDetectionStrategy, Component, output } from "@angular/core";
 
 @Component({
   selector: "app-zipcode-entry",
   templateUrl: "./zipcode-entry.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ZipcodeEntryComponent {
   onAddLocation = output<string>();
-
-  locationsStore = inject(LocationsStore);
 
   addLocation(zipCode: string) {
     this.onAddLocation.emit(zipCode);

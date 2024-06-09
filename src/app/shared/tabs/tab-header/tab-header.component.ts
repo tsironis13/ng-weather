@@ -1,16 +1,13 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   OnChanges,
   SimpleChanges,
-  effect,
   input,
   model,
   output,
 } from "@angular/core";
-import { Tab } from "../tab.interface";
 
 @Component({
   selector: "app-tab-header",
@@ -23,10 +20,10 @@ export class TabHeaderComponent implements OnChanges {
   title = input<string>();
   tabId = input<string>();
 
-  @HostBinding("class") public hostClass = "";
-
   onTabSelected = output<string>();
   onTabClosed = output<string>();
+
+  @HostBinding("class") public hostClass = "";
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.active?.currentValue === true) {

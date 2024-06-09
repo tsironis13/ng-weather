@@ -9,12 +9,18 @@ type StorageItem = {
   data: any;
 };
 
+/**
+ * This service is in charge of caching the http requests for the duration
+ * of the provided 'CACHE_VALID_DURATN_TOKEN'. If entry key requested exists
+ * in local browser storage and it is still valid, data are retrieved locally
+ * otherwise a new http request is fired.
+ */
 @Injectable({ providedIn: "root" })
 export class HttpCacheService {
   http = inject(HttpClient);
   cacheDurationToken = inject(CACHE_VALID_DURATION_TOKEN);
 
-  saveDataByKey(key: string, data: any) {
+  saveDataByKey<T>(key: string, data: T) {
     const validUntil = Date.now() + this.cacheDurationToken;
 
     localStorage.setItem(key, JSON.stringify({ validUntil, data }));

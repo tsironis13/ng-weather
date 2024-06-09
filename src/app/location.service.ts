@@ -45,6 +45,9 @@ export const LocationsStore = signalStore(
 
       return of(locationToRemove);
     },
+    getLastAddedLocation() {
+      return store.entities()[store.entities().length - 1];
+    },
   })),
   withHooks({
     onInit(store) {

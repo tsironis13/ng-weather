@@ -1,21 +1,9 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  ComponentRef,
   Input,
-  OnDestroy,
   TemplateRef,
-  ViewChild,
-  ViewContainerRef,
-  ViewRef,
-  inject,
-  input,
-  model,
-  signal,
 } from "@angular/core";
-import { Tab } from "../tab.interface";
-import { BehaviorSubject, Subject } from "rxjs";
 
 @Component({
   selector: "app-tab",
@@ -25,6 +13,6 @@ import { BehaviorSubject, Subject } from "rxjs";
 })
 export class TabComponent {
   @Input() active = false;
-  @Input() template;
-  @Input() dataContext;
+  @Input() template: TemplateRef<any>;
+  @Input() dataContext: any;
 }

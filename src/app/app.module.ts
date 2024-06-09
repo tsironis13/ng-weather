@@ -6,10 +6,14 @@ import { AppComponent } from "./app.component";
 import { ZipcodeEntryComponent } from "./zipcode-entry/zipcode-entry.component";
 import { ForecastsListComponent } from "./forecasts-list/forecasts-list.component";
 import { WeatherConditionsComponent } from "./weather-conditions/weather-conditions.component";
-import { MainPageComponent } from "./main-page/main-page.component";
+import {
+  DynamicTabTemplateDirective,
+  MainPageComponent,
+  WeatherConditionTabTemplateDirective,
+} from "./main-page/main-page.component";
 import { RouterModule } from "@angular/router";
 import { routing } from "./app.routing";
-import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { environment } from "../environments/environment";
 import {
@@ -34,6 +38,8 @@ export const CACHE_VALID_DURATION_TOKEN = new InjectionToken<number>(
     TabHeaderComponent,
     TabComponent,
     TabTemplateDirective,
+    WeatherConditionTabTemplateDirective,
+    DynamicTabTemplateDirective,
   ],
   imports: [
     BrowserModule,
