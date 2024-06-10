@@ -21,14 +21,14 @@ import { ConditionsAndZip } from "app/conditions-and-zip.type";
   selector: "[dynamicTab]",
 })
 export class DynamicTabTemplateDirective {
-  constructor(public templateRef: TemplateRef<any>) {}
+  constructor(public templateRef: TemplateRef<Record<string, unknown>>) {}
 }
 
 @Directive({
   selector: "[weatherCondition]",
 })
 export class WeatherConditionTabTemplateDirective {
-  constructor(public templateRef: TemplateRef<any>) {}
+  constructor(public templateRef: TemplateRef<Record<string, unknown>>) {}
 }
 
 @Component({
@@ -41,9 +41,9 @@ export class MainPageComponent {
     read: TemplateRef,
     static: true,
   })
-  private weatherConditionTabTemplate: TemplateRef<any>;
+  private weatherConditionTabTemplate: TemplateRef<Record<string, unknown>>;
   @ViewChild(DynamicTabTemplateDirective, { read: TemplateRef, static: true })
-  private dynamicTabTemplateRef: TemplateRef<any>;
+  private dynamicTabTemplateRef: TemplateRef<Record<string, unknown>>;
   @ViewChild(TabsContainerComponent)
   private tabsContainerComponent: TabsContainerComponent;
 
@@ -155,7 +155,7 @@ export class MainPageComponent {
 
   private openTab<T>(
     title: string,
-    template: TemplateRef<any>,
+    template: TemplateRef<Record<string, unknown>>,
     closeCallback: TabCloseCallback,
     content?: { data: T; zip: string | number }
   ) {

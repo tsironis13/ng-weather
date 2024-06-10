@@ -4,9 +4,9 @@ import { Observable, of } from "rxjs";
 import { tap } from "rxjs/operators";
 import { CACHE_VALID_DURATION_TOKEN } from "./app.module";
 
-type StorageItem = {
+type StorageItem<T> = {
   validUntil: number;
-  data: any;
+  data: T;
 };
 
 /**
@@ -16,17 +16,17 @@ type StorageItem = {
  * otherwise a new http request is fired.
  */
 @Injectable({ providedIn: "root" })
-export class HttpCacheService {
+export class HttpCacheService<T> {
   http = inject(HttpClient);
   cacheDurationToken = inject(CACHE_VALID_DURATION_TOKEN);
 
-  saveDataByKey<T>(key: string, data: T) {
+  saveDataByKey(key: string, data: T) {
     const validUntil = Date.now() + this.cacheDurationToken;
 
     localStorage.setItem(key, JSON.stringify({ validUntil, data }));
   }
 
-  getHttpCachedDataByKey<T>(key: string, url: string): Observable<T> {
+  getHttpCachedDataByKey(key: string, url: string) {
     const parsedItem = this.getStorageItemByKey(key);
 
     if (Date.now() < parsedItem?.validUntil) {
@@ -41,7 +41,7 @@ export class HttpCacheService {
   getStorageItemByKey(key: string) {
     let storageItem = localStorage.getItem(key);
 
-    const parsedItem: StorageItem = JSON.parse(storageItem);
+    const parsedItem: StorageItem<T> = JSON.parse(storageItem);
 
     return parsedItem;
   }

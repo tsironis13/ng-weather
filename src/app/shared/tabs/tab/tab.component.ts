@@ -13,6 +13,6 @@ import {
 })
 export class TabComponent {
   @Input() active = false;
-  @Input() template: TemplateRef<any>;
-  @Input() dataContext: any;
+  @Input() template: TemplateRef<Record<string, unknown>>;
+  @Input() dataContext: Record<string, unknown>;
 }

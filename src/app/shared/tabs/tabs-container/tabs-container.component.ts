@@ -32,7 +32,7 @@ export class TabsContainerComponent {
   @ViewChild(TabTemplateDirective, { read: ViewContainerRef, static: true })
   private tabTemplateContainerRef: ViewContainerRef;
 
-  openTab<T>(
+  openTab<T extends Record<string, unknown>>(
     title: string,
     template: TemplateRef<T>,
     closeCallback: TabCloseCallback,

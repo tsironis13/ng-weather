@@ -5,31 +5,27 @@ import { WeatherConditions } from "./weather-conditions/weather-conditions.type"
 import { ConditionsAndZip } from "./conditions-and-zip.type";
 import { Forecast } from "./forecasts-list/forecast.type";
 import { HttpCacheService } from "./http-cache.service";
+import { environment } from "environments/environment";
 
 export const WEATHER_CONDITIONS = "weatherConditions";
-export const FORECAST = "forecast";
 
 @Injectable({
   providedIn: "root",
 })
 export class WeatherService {
-  static URL = "https://api.openweathermap.org/data/2.5";
-  static APPID = "5a4b2d457ecbef9eb2a71e480b947604";
   static ICON_URL =
     "https://raw.githubusercontent.com/udacity/Sunshine-Version-2/sunshine_master/app/src/main/res/drawable-hdpi/";
   private currentConditions = signal<ConditionsAndZip[]>([]);
 
-  private httpCacheService = inject(HttpCacheService);
+  private httpCacheService =
+    inject<HttpCacheService<WeatherConditions>>(HttpCacheService);
 
   addCurrentCondition(zipcode: string | number) {
-    const url = `${WeatherService.URL}/weather?zip=${zipcode},us&units=imperial&APPID=${WeatherService.APPID}`;
+    const url = `${environment.openweathermapUrl}/weather?zip=${zipcode},us&units=imperial&APPID=${environment.appId}`;
 
     // Here we make a request to get the current conditions data from the API. Note the use of backticks and an expression to insert the zipcode
     return this.httpCacheService
-      .getHttpCachedDataByKey<WeatherConditions>(
-        `${WEATHER_CONDITIONS}-${zipcode}`,
-        url
-      )
+      .getHttpCachedDataByKey(`${WEATHER_CONDITIONS}-${zipcode}`, url)
       .pipe(
         tap((data) => {
           this.currentConditions.update((conditions) => [
@@ -64,15 +60,6 @@ export class WeatherService {
 
   getLastAddedWeatherConditions() {
     return this.currentConditions()[this.currentConditions().length - 1];
-  }
-
-  getForecast(zipcode: string): Observable<Forecast> {
-    const url = `${WeatherService.URL}/forecast/daily?zip=${zipcode},us&units=imperial&cnt=5&APPID=${WeatherService.APPID}`;
-    // Here we make a request to get the forecast data from the API. Note the use of backticks and an expression to insert the zipcode
-    return this.httpCacheService.getHttpCachedDataByKey<Forecast>(
-      `${FORECAST}-${zipcode}`,
-      url
-    );
   }
 
   getWeatherIcon(id): string {
