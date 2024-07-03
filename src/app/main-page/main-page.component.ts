@@ -16,9 +16,12 @@ import { from } from "rxjs";
 import { TabCloseCallback } from "app/shared/tabs/tab.interface";
 import { WeatherConditions } from "app/weather-conditions/weather-conditions.type";
 import { ConditionsAndZip } from "app/conditions-and-zip.type";
+import { WeatherConditionsComponent } from "../weather-conditions/weather-conditions.component";
+import { ZipcodeEntryComponent } from "../zipcode-entry/zipcode-entry.component";
 
 @Directive({
   selector: "[dynamicTab]",
+  standalone: true,
 })
 export class DynamicTabTemplateDirective {
   constructor(public templateRef: TemplateRef<Record<string, unknown>>) {}
@@ -26,6 +29,7 @@ export class DynamicTabTemplateDirective {
 
 @Directive({
   selector: "[weatherCondition]",
+  standalone: true,
 })
 export class WeatherConditionTabTemplateDirective {
   constructor(public templateRef: TemplateRef<Record<string, unknown>>) {}
@@ -35,6 +39,14 @@ export class WeatherConditionTabTemplateDirective {
   selector: "app-main-page",
   templateUrl: "./main-page.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    ZipcodeEntryComponent,
+    WeatherConditionTabTemplateDirective,
+    WeatherConditionsComponent,
+    DynamicTabTemplateDirective,
+    TabsContainerComponent,
+  ],
 })
 export class MainPageComponent {
   @ViewChild(WeatherConditionTabTemplateDirective, {

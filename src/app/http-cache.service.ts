@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { CACHE_VALID_DURATION_TOKEN } from "main";
+import { of } from "rxjs";
 import { tap } from "rxjs/operators";
-import { CACHE_VALID_DURATION_TOKEN } from "./app.module";
 
 type StorageItem<T> = {
   validUntil: number;

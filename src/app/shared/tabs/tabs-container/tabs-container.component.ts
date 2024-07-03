@@ -10,18 +10,22 @@ import {
 } from "@angular/core";
 import { TabComponent } from "../tab/tab.component";
 import { Tab, TabCloseCallback } from "../tab.interface";
+import { TabHeaderComponent } from "../tab-header/tab-header.component";
 
 @Directive({
-  selector: "[tabTemplate]",
+    selector: "[tabTemplate]",
+    standalone: true,
 })
 export class TabTemplateDirective {
   constructor(public viewContainer: ViewContainerRef) {}
 }
 
 @Component({
-  selector: "app-tabs-container",
-  templateUrl: "./tabs-container.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "app-tabs-container",
+    templateUrl: "./tabs-container.component.html",
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [TabHeaderComponent, TabTemplateDirective],
 })
 export class TabsContainerComponent {
   protected tabs: Tab[] = [];
@@ -119,7 +123,7 @@ export class TabsContainerComponent {
 
       setTimeout(() => {
         this.tabs.splice(tabIndex, 1);
-        this.changeDetectorRef.markForCheck();
+        this.changeDetectorRef.detectChanges();
       });
 
       return;

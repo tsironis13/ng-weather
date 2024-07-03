@@ -10,10 +10,11 @@ import {
 } from "@angular/core";
 
 @Component({
-  selector: "app-tab-header",
-  templateUrl: "./tab-header.component.html",
-  styleUrls: ["./tab-header.component.css"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "app-tab-header",
+    templateUrl: "./tab-header.component.html",
+    styleUrls: ["./tab-header.component.css"],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
 })
 export class TabHeaderComponent implements OnChanges {
   active = model<boolean>();

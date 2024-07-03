@@ -1,9 +1,8 @@
-import { ModuleWithProviders } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
+import { Routes } from "@angular/router";
 import { ForecastsListComponent } from "./forecasts-list/forecasts-list.component";
 import { MainPageComponent } from "./main-page/main-page.component";
 
-const appRoutes: Routes = [
+export const APP_ROUTES: Routes = [
   {
     path: "",
     component: MainPageComponent,
@@ -13,7 +12,3 @@ const appRoutes: Routes = [
     component: ForecastsListComponent,
   },
 ];
-export const routing: ModuleWithProviders<any> = RouterModule.forRoot(
-  appRoutes,
-  { bindToComponentInputs: true }
-);
